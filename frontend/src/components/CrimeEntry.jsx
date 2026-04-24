@@ -35,7 +35,7 @@ export default function CrimeEntry() {
       await computeHotspots();
       setAlert({ type: 'success', msg: 'Incident logged! Hotspot scores recomputed automatically.' });
       setFormData(prev => ({ ...prev, crime_type: 'Robbery', severity: 'Medium', area_id: '' }));
-    } catch (err) {
+    } catch {
       setAlert({ type: 'error', msg: 'Submission failed. Check backend connection.' });
     }
     setSubmitting(false);
@@ -65,8 +65,8 @@ export default function CrimeEntry() {
 
           <form onSubmit={handleSubmit} className="form-grid">
             <div className="form-group">
-              <label>Location (Area)</label>
-              <select value={formData.area_id} onChange={set('area_id')} required>
+              <label htmlFor="area_id">Location (Area) <span className="text-red-500" style={{color: 'var(--danger)'}}>*</span></label>
+              <select id="area_id" value={formData.area_id} onChange={set('area_id')} required>
                 <option value="">— Select area —</option>
                 {areas.map(a => (
                   <option key={a.area_id} value={a.area_id}>{a.area_name}</option>
@@ -76,14 +76,14 @@ export default function CrimeEntry() {
 
             <div className="form-row">
               <div className="form-group">
-                <label>Crime Type</label>
-                <select value={formData.crime_type} onChange={set('crime_type')}>
+                <label htmlFor="crime_type">Crime Type</label>
+                <select id="crime_type" value={formData.crime_type} onChange={set('crime_type')}>
                   {CRIME_TYPES.map(t => <option key={t}>{t}</option>)}
                 </select>
               </div>
               <div className="form-group">
-                <label>Severity Level</label>
-                <select value={formData.severity} onChange={set('severity')}>
+                <label htmlFor="severity">Severity Level</label>
+                <select id="severity" value={formData.severity} onChange={set('severity')}>
                   {SEVERITY_OPTS.map(s => <option key={s}>{s}</option>)}
                 </select>
               </div>
@@ -91,25 +91,25 @@ export default function CrimeEntry() {
 
             <div className="form-row">
               <div className="form-group">
-                <label>Date</label>
-                <input type="date" value={formData.crime_date} onChange={set('crime_date')} required />
+                <label htmlFor="crime_date">Date <span className="text-red-500" style={{color: 'var(--danger)'}}>*</span></label>
+                <input id="crime_date" type="date" value={formData.crime_date} onChange={set('crime_date')} required />
               </div>
               <div className="form-group">
-                <label>Time</label>
-                <input type="time" value={formData.crime_time} onChange={set('crime_time')} required />
+                <label htmlFor="crime_time">Time <span className="text-red-500" style={{color: 'var(--danger)'}}>*</span></label>
+                <input id="crime_time" type="time" value={formData.crime_time} onChange={set('crime_time')} required />
               </div>
             </div>
 
             <div className="form-row">
               <div className="form-group">
-                <label>Time Slot</label>
-                <select value={formData.time_slot} onChange={set('time_slot')}>
+                <label htmlFor="time_slot">Time Slot</label>
+                <select id="time_slot" value={formData.time_slot} onChange={set('time_slot')}>
                   {TIME_SLOTS.map(t => <option key={t}>{t}</option>)}
                 </select>
               </div>
               <div className="form-group">
-                <label>Status</label>
-                <select value={formData.status} onChange={set('status')}>
+                <label htmlFor="status">Status</label>
+                <select id="status" value={formData.status} onChange={set('status')}>
                   {STATUS_OPTS.map(s => <option key={s}>{s}</option>)}
                 </select>
               </div>

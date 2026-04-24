@@ -27,7 +27,10 @@ export default function PatrolAllocation() {
     }
   };
 
-  useEffect(() => { fetchAssignments(); }, []);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchAssignments();
+  }, []);
 
   const handleGreedyDispatch = async () => {
     setLoading(true);
