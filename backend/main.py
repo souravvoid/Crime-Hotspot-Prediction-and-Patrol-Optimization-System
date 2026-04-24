@@ -2,6 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from typing import List
+import os
 import csv
 import io
 
@@ -15,7 +16,7 @@ app = FastAPI(title="Crime Hotspot API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[url.strip() for url in os.getenv("FRONTEND_URLS", "http://localhost:5173,http://127.0.0.1:5173").split(",")],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
