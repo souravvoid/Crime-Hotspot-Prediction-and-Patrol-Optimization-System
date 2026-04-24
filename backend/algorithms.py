@@ -1,13 +1,17 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 import models
 from collections import deque
 from datetime import datetime
 
 def compute_hotspot_scores(db: Session):
-    areas = db.query(models.Area).all()
+    # Optimize N+1 queries by eager loading crimes and hotspot relationships
+    areas = db.query(models.Area).options(
+        joinedload(models.Area.crimes),
+        joinedload(models.Area.hotspot)
+    ).all()
     
     for area in areas:
-        crimes = db.query(models.Crime).filter(models.Crime.area_id == area.area_id).all()
+        crimes = area.crimes
         
         freq = len(crimes)
         
@@ -34,7 +38,7 @@ def compute_hotspot_scores(db: Session):
         elif score >= 5:
             risk_level = "Moderate Risk"
             
-        hotspot = db.query(models.Hotspot).filter(models.Hotspot.area_id == area.area_id).first()
+        hotspot = area.hotspot
         if hotspot:
             hotspot.hotspot_score = score
             hotspot.risk_level = risk_level
