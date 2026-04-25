@@ -2,3 +2,8 @@
 **Vulnerability:** CORS was configured with `allow_origins=["*"]` in the FastAPI backend, which is overly permissive and allows any domain to make cross-origin requests to the API.
 **Learning:** This is a common misconfiguration that can lead to Cross-Site Request Forgery (CSRF) and other cross-origin attacks if an attacker hosts a malicious website that users visit while authenticated.
 **Prevention:** Always restrict `allow_origins` to the specific domains that are expected to access the API, such as the frontend application's origin (e.g., `http://localhost:5173` for development).
+
+## 2024-05-18 - Missing API Input Validation
+**Vulnerability:** FastAPI Pydantic schemas lacked length and pattern constraints.
+**Learning:** Unconstrained fields allow for DoS attacks via massive payloads and the persistence of invalid state strings (e.g. invalid date formats).
+**Prevention:** Always use `pydantic.Field` constraints (`max_length`, `pattern`, `ge`) on all incoming payload schemas.
